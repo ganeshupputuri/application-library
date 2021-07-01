@@ -1,0 +1,97 @@
+
+<%@ page isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Customer Log App</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
+ <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+ 
+ <style type="text/css">
+ .dropdown-menu {min-width: 30rem;} 
+ .foo{
+   margin-left: 30px;
+ }
+ .hoo{
+   margin-right:10px;
+ }
+ .goo{
+   margin-top: 20px;
+ }
+ </style>
+ <script type="text/javascript" >
+ $(document).ready( function () {
+	    $('#myTable').DataTable();
+	} );
+</script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">Library Management</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/newbook">New book</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/getBooks">Get books</a>
+      </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Get by Type
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <form class="d-flex" action="/getByType">
+          <label style="margin-left:5px;margin-top:5px;"  for="search">Book id</label>
+        <input class="form-control me-2 foo" style="width:50%;" type="text" name="genre" id="search" aria-label="Search">
+      <button type="submit" class="btn btn-primary hoo">Submit</button>
+       </form>
+        </div>
+      </li>
+      </ul>
+  </div>
+</nav>
+
+<div class="container goo">
+<table id="myTable" >
+<thead>
+    <tr>
+      <th scope="col">Book ID</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Book Name</th>
+      <th scope="col">Genre</th>
+
+    </tr>
+  </thead>
+  <tbody>
+  <c:forEach  var="i" items="${ data }">
+ <tr>
+   <td>${i.bookId}</td>
+   <td>${i.quantity}</td>
+   <td>${i.bookName}</td>
+   <td>${i.genre}</td>
+ </tr>
+ </c:forEach>
+  </tbody>
+</table>
+<div id="pageNavPosition" class="pager-nav"></div>
+
+</div>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

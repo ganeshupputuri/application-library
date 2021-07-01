@@ -1,0 +1,23 @@
+package com.app.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.app.model.BookModel;
+import com.app.repo.LibraryManagementRepo;
+
+@Controller
+public class LibraryManagementController {
+  
+	@Autowired
+	private LibraryManagementRepo libraryManagementRepo;
+	
+	
+	@PostMapping("/saveBook")
+	@ResponseBody
+	public String saveBook(BookModel bm) {
+		return "success "+bm.getBookId()+" "+bm.getBookName();
+	}
+}

@@ -1,0 +1,82 @@
+package com.app.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.app.model.BookModel;
+import com.app.repo.LibraryManagementRepo;
+
+@Controller
+public class LibraryManagementController {
+  
+	@Autowired
+	private LibraryManagementRepo libraryManagementRepo;
+	
+	
+	@GetMapping("/")
+	public ModelAndView home() {
+		ModelAndView mv=new ModelAndView("home");
+		return mv;
+	}
+	
+	@GetMapping("/newbook")
+	public ModelAndView newBook() {
+		ModelAndView mv=new ModelAndView("newbook");
+		return mv;
+	}
+	
+	
+	@PostMapping("/saveBook")
+	public ModelAndView saveBook( BookModel bm) {
+		
+		ModelAndView mv=new ModelAndView("newbook");
+		libraryManagementRepo.save(bm);
+		mv.addObject("data", "Successfully Saved");
+		return mv;
+	}
+	
+	
+	@PutMapping("/editBook")
+	@ResponseBody
+	public BookModel updateBook(@RequestBody BookModel bm) {
+	   Optional<BookModel> b=	libraryManagementRepo.findById(bm.getBookId());
+	   BookModel  bookModel=b.get();
+	   bookModel.setBookName(bm.getBookName());
+	   bookModel.setGenre(bm.getGenre());
+	   bookModel.setQuantity(bm.getQuantity());
+	   libraryManagementRepo.save(bookModel);
+	   return bookModel;
+	}
+	
+	@DeleteMapping("/deleteBook")
+	public @ResponseBody String deleteBook(@RequestParam("bookId") Integer bookId) {
+		
+		libraryManagementRepo.deleteById(bookId);
+		return "successfully deleted";
+		
+	}
+	
+	@GetMapping("/getBooks")
+	@ResponseBody
+	public List<BookModel> getBooks() {
+		return libraryManagementRepo.findAll();
+	}
+	
+	@GetMapping("/getByType")
+	@ResponseBody
+	public List<BookModel> getByType(@RequestParam("genre") String g){
+		return libraryManagementRepo.findByGenre(g);
+	}
+	
+}
